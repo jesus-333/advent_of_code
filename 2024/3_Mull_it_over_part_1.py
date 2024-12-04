@@ -2,6 +2,8 @@
 I make no claim to be efficient or effective. What you see is simply the first solution I came up with.
 
 Original problem https://adventofcode.com/2024/day/3
+
+Solution for part 1
 """
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 

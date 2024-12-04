@@ -2,6 +2,8 @@
 I make no claim to be efficient or effective. What you see is simply the first solution I came up with.
 
 Original problem https://adventofcode.com/2024/day/3
+
+Solution for part 2
 """
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -14,7 +16,7 @@ f = open("3_data.txt", "r")
 string_to_analyze = f.read()
 # print(string_to_analyze) 
 
-# string_to_analyze = 'xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))'
+# string_to_analyze = 'xmul(2,4)&mul[3,7]!^don\'t()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -46,6 +48,27 @@ enable_mul = True
 for idx in range(len(string_to_analyze)) :
     # Check for do/don't instruction
 
+    # Search for do word 
+    do_word_found = False
+    if string_to_analyze[idx] == 'd' :
+        if string_to_analyze[idx + 1] == 'o' : 
+            do_word_found  = True
+    
+    # Check if the word is a do or don't
+    do_instruction_found = False
+    dont_instruction_found = False
+    if do_word_found   :
+        if string_to_analyze[idx + 2] == '(' and string_to_analyze[idx + 3] == ')' : 
+            do_instruction_found = True
+            dont_instruction_found =  False # I know that this instruction is redundant and unnecessary
+        elif string_to_analyze[idx + 2] == 'n' and string_to_analyze[idx + 3] == '\'' and string_to_analyze[idx + 4] == 't' and string_to_analyze[idx + 5] == '(' and string_to_analyze[idx + 6] == ')' :
+            do_instruction_found = False # I know that this instruction is redundant and unnecessary
+            dont_instruction_found = True
+
+    if do_instruction_found :
+        enable_mul = True
+    elif dont_instruction_found :
+        enable_mul = False
     
     # Check for mul instruction
     if enable_mul :
