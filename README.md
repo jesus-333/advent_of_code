@@ -1,2 +1,2 @@
 # Advent of Code
-Repository swth my attempts to solve the problems of advent of code
+Repository with my attempts to solve the problems of advent of code
