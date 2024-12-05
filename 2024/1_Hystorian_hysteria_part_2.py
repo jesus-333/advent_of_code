@@ -3,7 +3,7 @@ I make no claim to be efficient or effective. What you see is simply the first s
 
 Original problem https://adventofcode.com/2024/day/1 
 
-Solution for part 1 : 1506483
+Solution for part 2 : 23126924
 """
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -32,13 +32,14 @@ for i in range(len(string_divided_by_line)) :
     array_2[i] = int(numbers_in_line[1])
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-# Compute distance between elements according to challenge criteria
+# Compute similarity score
 
-# Sort value
-array_1.sort()
-array_2.sort()
+similarity_score = 0
 
-distance = np.abs(array_1 - array_2)
+for i in range(len(array_1)) :
+    element_array_1 = array_1[i]
 
-print("The sum of distance is {}".format(distance.sum()))
+    count_element_in_array_2 = np.sum(array_2 == element_array_1) * element_array_1
+    similarity_score += count_element_in_array_2
 
+print("The similarity score is ", similarity_score)
