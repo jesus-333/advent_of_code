@@ -1,5 +1,6 @@
 """
 I make no claim to be efficient or effective. What you see is simply the first solution I came up with.
+(and for this problem the solution was particularly inefficient)
 
 Original problem https://adventofcode.com/2024/day/6
 
