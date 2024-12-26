@@ -80,7 +80,8 @@ for i in range(1, len(map_file_size)) :
     position_of_file_to_move = map_file_position[-i]
     size_of_file_to_move = map_file_size[-i]
 
-    # if map_empty_space_size[idx_gap] >= 
+    if map_empty_space_size[idx_gap] >= size_of_file_to_move :
+        pass
         
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Compute checksum
