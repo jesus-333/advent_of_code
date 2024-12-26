@@ -3,7 +3,7 @@ I make no claim to be efficient or effective. What you see is simply the first s
 
 Original problem https://adventofcode.com/2024/day/9
 
-Solution for part 1 : 
+Solution for part 2 : 6389911791746
 """
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -18,6 +18,36 @@ from numba import jit
 f = open("9_data.txt", "r")
 disk_map_compact = f.read().strip()
 f.close()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+def get_empty_space_list(disk_map_extended) :
+    map_empty_space_position = []
+    map_empty_space_size = []
+
+    gap_found = False
+    gap_size = 0
+    for i in range(len(disk_map_extended)) :
+        if disk_map_extended[i] == -1 :
+            # Save only the initial position of the gap
+            if not gap_found : map_empty_space_position.append(i)
+            
+            # Start to measure  the gap size
+            gap_found = True
+            gap_size += 1
+        else :
+            # In this case the current block is a file
+            # But if gap_found is True it means that the previous block was the last of an empy gap
+            # So I save the gap size
+            if gap_found :
+                gap_found = False
+                map_empty_space_size.append(gap_size)
+                gap_size = 0
+    
+    # If the cycle end and gap found is still True it means that all the last part of the disk is empty
+    if gap_found : map_empty_space_size.append(gap_size)
+
+    return map_empty_space_position, map_empty_space_size
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Compute n. of blocks of memory
@@ -36,11 +66,10 @@ save_info = True
 
 map_file_position = []
 map_file_size = []
-map_empty_space_position = []
-map_empty_space_size = []
 
 for i in range(len(disk_map_compact)) :
     tmp_n_blocks = int(disk_map_compact[i])
+    if i < 4 : print(i, tmp_n_blocks)
 
     for j in range(tmp_n_blocks) :
         # Write in the extended map if the current block is a file (specific numerical id) or free memory (-1)
@@ -54,11 +83,6 @@ for i in range(len(disk_map_compact)) :
             
         else :
             disk_map_extended[current_idx_extended] = -1
-
-            if save_info : 
-                map_empty_space_position.append(current_idx_extended)
-                map_empty_space_size.append(tmp_n_blocks)
-                save_info = False
         
         current_idx_extended += 1
     
@@ -74,15 +98,35 @@ for i in range(len(disk_map_compact)) :
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Fill empty gaps
 
-idx_gap = 0
 
-for i in range(1, len(map_file_size)) :
-    position_of_file_to_move = map_file_position[-i]
-    size_of_file_to_move = map_file_size[-i]
+for i in range(len(map_file_size)) :
+    # Get the empty space positions in the current moment
+    map_empty_space_position, map_empty_space_size = get_empty_space_list(disk_map_extended)
 
-    if map_empty_space_size[idx_gap] >= size_of_file_to_move :
-        pass
+    # Get info for file I want to move
+    position_of_file_to_move = map_file_position[-(i + 1)]
+    size_of_file_to_move = map_file_size[-(i + 1)]
+    id_file_to_move = disk_map_extended[position_of_file_to_move]
+    print("Analyze file {} ({}% of file analyzed)".format(int(id_file_to_move), np.round(100 * i / len(map_file_size) ,2)))
+
+    for j in range(len(map_empty_space_position)) :
+        position_of_empty_space = map_empty_space_position[j]
+        size_empty_space = map_empty_space_size[j]
         
+        # Interrupt the cycle if the empty space is to the right of the file I want to move
+        if position_of_empty_space >= position_of_file_to_move : break
+        
+        # If the gap is big enough move the file
+        if size_empty_space >= size_of_file_to_move :
+            for k in range(size_of_file_to_move) :
+                # Move the file
+                disk_map_extended[position_of_empty_space + k] = id_file_to_move
+
+                # Delete the from the original position
+                disk_map_extended[position_of_file_to_move + k] = -1
+
+            break       
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # Compute checksum
 
