@@ -3,8 +3,7 @@ I make no claim to be efficient or effective. What you see is simply the first s
 
 Original problem https://adventofcode.com/2024/day/10
 
-Solution for part 1 : 512
-Solution for part 2 : 1045
+Solution for part 1 : 
 """
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
