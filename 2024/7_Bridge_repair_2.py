@@ -3,9 +3,7 @@ I make no claim to be efficient or effective. What you see is simply the first s
 
 Original problem https://adventofcode.com/2024/day/7
 
-This solution was wrong so I applied a more brute force approach
-
-Solution part 2 :
+Solution part 2 : 61561126043536
 """
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
