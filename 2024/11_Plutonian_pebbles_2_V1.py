@@ -19,11 +19,12 @@ import numpy as np
 f = open("11_data.txt", "r")
 string_to_analyze = f.read().strip().split(' ')
 list_of_stones = np.asarray([int(i) for i in string_to_analyze])
+# list_of_stones = np.asarray([739318])
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+# Compute the first n steps
 
-n_blinks = 75
-a = []
+n_blinks = 35
 for i in range(n_blinks) :
     new_list_of_stones = []
     
